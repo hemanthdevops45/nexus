@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+    tools{
+	    maven "maven3.9.9"
+	    jdk "java-17"
+	}
+	stages{
+	    stage('deploying to git repo'){
+		    steps{
+			    git branch: 'main', url: 'https://github.com/hemanthdevops45/nexus.git'
+			}
+		}
+		stage('building the JAR Package'){
+		    steps{
+			    sh 'mvn clean package'
+			}
+		}
+		stage('deploying JAR Package to nexus'){
+		    steps{
+			    sh 'mvn deploy'
+			}
+		}
+		stage('post-build actions'){
+		    steps{
+			    echo("Deployed Successfully")
+			}
+		}
+	}
+}
