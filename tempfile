@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+	tools{
+	    maven 'maven3.9.9'
+	    jdk 'java17'
+	}
+	stages{
+	    stage('cloning git repo'){
+		    steps{
+			    git branch:'main',url:'https://github.com/hemanthdevops45/Chinna.git'
+			}
+		}
+		stage('building the JAR Package'){
+		    steps{
+			    sh 'mvn clean package'
+			}
+		}
+		stage('JAR Package to Nexu'){
+		    steps{
+			    sh 'mvn deploy'
+			}
+		}
+		stage('post-build actions'){
+		    steps{
+			    echo 'Build Successfully Completed'
+			}
+		}
+	}
+}
